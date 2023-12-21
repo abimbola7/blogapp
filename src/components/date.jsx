@@ -29,8 +29,13 @@ const DateTime = () => {
   console.log(weekDays)
   
   return (
-    <div>
-      <span className='text-lg font-light uppercase text-lightGray'>{weekDays}</span>
+    <div className='flex font-light text-darkGray'>
+      <span className='pb-4 text-lg font-light uppercase border-b border-black'>{weekDays}</span>
+      <div className='flex pb-4 space-x-2 border-b border-[rgba(171, 171, 171)]'>
+        <span className='ml-2 text-lg font-light uppercase'>{day}</span>
+        <span className='text-lg font-light uppercase'>{month}</span>
+        <span className='text-lg font-light uppercase'>{year}</span>
+      </div>
     </div>
   )
 }

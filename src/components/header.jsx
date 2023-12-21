@@ -2,6 +2,7 @@
 
 import React from 'react'
 import DateTime from './date'
+import Link from 'next/link'
 
 const Header = () => {
   return (
@@ -17,7 +18,12 @@ const Header = () => {
         <span className='relative text-xl text-lightGray before:absolute before:w-7 before:h-[.01rem] before:bg-lightGray before:-left-9 before:top-3 after:absolute after:w-7 after:h-[.01rem] after:bg-lightGray after:-right-9 after:top-3'>UNLOCKING TECH WONDERS!</span>
       </div>
 
-      <div></div>
+      <div className='flex text-lg font-light text-lightGray'>
+        <p className='pb-4 border-b border-[rgba(171, 171, 171)]'>
+          <Link href="">LOGIN</Link> / 
+           <Link href=""> REGISTER</Link> 
+        </p>
+      </div>
     </header>
   )
 }

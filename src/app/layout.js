@@ -20,7 +20,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${merriweather.className}  min-h-screen max-w-[110rem] border mx-auto`}>
+      <body className={`${merriweather.className}  min-h-screen max-w-[110rem] mx-auto`}>
         <Header />
         {children}
       </body>
