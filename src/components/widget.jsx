@@ -10,12 +10,12 @@ const Widget = () => {
       {
         [
           [ "NEWS", "/" ],
-          [ "MOBILE", "/mobile" ],
-          [ "TABLET", "/tablet" ],
-          [ "GADGETS", "/gadgets" ],
-          [ "CAMERA", "/camera" ],
-          [ "DESIGN", "/design" ], 
-          [ "MORE", "/more" ], 
+          [ "MOBILE", "/category/mobile" ],
+          [ "TABLET", "/category/tablet" ],
+          [ "GADGETS", "/category/gadgets" ],
+          [ "CAMERA", "/category/camera" ],
+          [ "DESIGN", "/category/design" ], 
+          [ "MORE", "/category/more" ], 
         ].map(([name, link])=>(
           <Link href={link} key={link} className='text-xl font-bold '>
             {name}

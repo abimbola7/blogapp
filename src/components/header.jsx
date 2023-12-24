@@ -22,8 +22,8 @@ const Header = () => {
       </div>
       <div className='flex text-lg font-light text-lightGray flex-col items-center justify-center space-y-3'>
         <p className='pb-4 border-b border-[rgba(171, 171, 171)]'>
-          <Link href="">LOGIN</Link> / 
-           <Link href=""> REGISTER</Link> 
+          <Link href="/login">LOGIN</Link> / 
+           <Link href="/register"> REGISTER</Link> 
         </p>
         <Search />
       </div>
