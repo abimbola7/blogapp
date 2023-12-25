@@ -17,7 +17,6 @@ const DateTime = () => {
   const day = date.toLocaleString("en-US", {day:"2-digit"})
   const dates =  date.getDay()
   const year = date.getFullYear()
-  console.log(month, day, year, dates)
   
   const dateHandler = (dates) => {
     const foundDay = days.find(day=>day.id  === dates);
@@ -26,7 +25,6 @@ const DateTime = () => {
     }
   }
   const weekDays  = dateHandler(dates)
-  console.log(weekDays)
   
   return (
     <div className='flex font-light text-darkGray'>

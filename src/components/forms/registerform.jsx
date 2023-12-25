@@ -2,6 +2,7 @@
 import React from 'react'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from "yup"
+import Link from 'next/link'
 
 const passwordValidator = (message) => {
   return `Your password must have at least 1 ${message} character.`
@@ -42,8 +43,26 @@ const RegisterForm = () => {
         confirmPassword : ""
       }}
       validationSchema={SignupSchema}
-      onSubmit={async values => {
-        console.log(values)
+      onSubmit={async (values) => {
+        try {
+          const res  = await fetch("/api/register", {
+            method : "POST",
+            headers : {
+              "Content-Type" : "application/json"
+            },
+            body : JSON.stringify({
+              firstName : values.firstName,
+              lastName : values.lastName,
+              email : values.email,
+              password : values.password
+            })
+          })
+          if (res.ok) {
+            console.log("okay")
+          }
+        } catch(err) {
+          console.error(err, "PROBLEM FROM REGISTER")
+        }
       }}
       >
         {({ errors, touched, isSubmitting }) => (
@@ -78,7 +97,10 @@ const RegisterForm = () => {
            {errors.confirmPassword && touched.confirmPassword ? <div className='text-red-700'>{errors.confirmPassword}</div> : null}
           </div>
 
-           <button type="submit" disabled={isSubmitting}  className='w-full text-center bg-green-600 py-2 text-white mt-2 rounded-md'>Submit</button>
+           <button type="submit" disabled={isSubmitting}  className='w-full text-center bg-green-600 py-2 text-white mt-2 rounded-md focus:outline-none'>Submit</button>
+           <p className='tect-center'>
+            Already have an account? <Link href={""} className='text-green-500'>Login</Link>
+           </p>
          </Form>
        )}
       </Formik>
