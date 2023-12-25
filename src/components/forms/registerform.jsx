@@ -31,6 +31,7 @@ const SignupSchema = Yup.object().shape({
 
 
 const RegisterForm = () => {
+  const [ error, setError ] = React.useState(null)
   return (
     <div className='mx-auto w-[40rem] max-w-[90%] mt-10'>
       <h1 className='text-center uppercase text-5xl mb-5'>Sign Up</h1>
@@ -44,6 +45,27 @@ const RegisterForm = () => {
       }}
       validationSchema={SignupSchema}
       onSubmit={async (values) => {
+        setError(null)
+        try {
+          const user = {
+            email : values.email
+          }
+          const resUserExists = await fetch("/api/userexists", {
+            method : "POST",
+            headers : {
+              "Content-Type" : "application/json"
+            },
+            body : JSON.stringify({user})
+          })
+          const { userEmail } = await resUserExists.json()
+          if (userEmail) {
+            setError("User already exists")
+            return;
+          }
+        } catch (error){
+          console.log(error, "registerform")
+        }
+
         try {
           const res  = await fetch("/api/register", {
             method : "POST",
@@ -59,13 +81,14 @@ const RegisterForm = () => {
           })
           if (res.ok) {
             console.log("okay")
+            
           }
         } catch(err) {
           console.error(err, "PROBLEM FROM REGISTER")
         }
       }}
       >
-        {({ errors, touched, isSubmitting }) => (
+        {({ errors, touched, isSubmitting, values }) => (
          <Form className='flex flex-col space-y-3'>
           <div>
             <label>First Name</label>
@@ -96,10 +119,12 @@ const RegisterForm = () => {
            <Field name="confirmPassword" type="password" className="forms"/>
            {errors.confirmPassword && touched.confirmPassword ? <div className='text-red-700'>{errors.confirmPassword}</div> : null}
           </div>
-
-           <button type="submit" disabled={isSubmitting}  className='w-full text-center bg-green-600 py-2 text-white mt-2 rounded-md focus:outline-none'>Submit</button>
+          {
+            error && <p className='text-red-500'>the email {values.email} already exists</p>
+          }
+           <button type="submit" disabled={isSubmitting}  className='w-full text-center bg-green-600 py-2 text-white mt-2 rounded-md focus:outline-none disabled:bg-green-300'>Submit</button>
            <p className='tect-center'>
-            Already have an account? <Link href={""} className='text-green-500'>Login</Link>
+            Already have an account? <Link href={"/auth/signin"} className='text-green-500'>Login</Link>
            </p>
          </Form>
        )}
