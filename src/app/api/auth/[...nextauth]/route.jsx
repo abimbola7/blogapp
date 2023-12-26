@@ -10,13 +10,13 @@ export const handler = NextAuth({
       name : "credentials",
       credentials : {},
       async authorize(credentials) {
-        const { firstName, email } = credentials
-        console.log(firstName, email)
+        const { email, password } = credentials
+        console.log(email, password)
 
         try {
           const user = await User.findOne({email})
-          console.log(user)
           if (!user) return null;
+          if (password !== user.password) return null;
           return user
         }catch(error) {
           console.log(error, "Error in auth")
@@ -35,7 +35,6 @@ export const handler = NextAuth({
     async session({ session, token, user }) {
       const sessionUser = await User.findOne({ email : session.user.email })
       if (sessionUser) {
-        console.log(sessionUser, "SESSSSSIONSUSSSSER")
         session.user.id = sessionUser._id.toString()
         session.user.name = sessionUser.firstName
         return session;

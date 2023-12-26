@@ -2,7 +2,9 @@
 
 import React from 'react'
 import * as Yup from "yup"
-import { Formik, Form, Field } from 'formik'
+import { Formik, Form, Field } from 'formik';
+import { signIn } from "next-auth/react"
+import { useRouter } from 'next/navigation';
 
 const loginSchema = Yup.object().shape({
   email : Yup.string().email('Invalid Email').required("Required"),
@@ -11,6 +13,8 @@ const loginSchema = Yup.object().shape({
 
 
 const LoginForm = () => {
+  const router  = useRouter()
+  const [ error, setError ] = React.useState(null);
   return (
     <div
     className='mx-auto w-[40rem] max-w-[90%] mt-10'
@@ -23,7 +27,23 @@ const LoginForm = () => {
       }}
       validationSchema={loginSchema}
       onSubmit={async (values) => {
+        setError(null)
         console.log(values)
+        const email = values.email
+        const password = values.password
+        try {
+          const res = await signIn('credentials', {
+          email, password , redirect : false
+          })
+          console.log(res);
+          if (res.error) {
+            setError("Invalid credentials")
+            return;
+          }
+          router.replace("/")
+        } catch(error) {
+          console.log("error in the loginform", error)
+        }
       }}
       >
         {
@@ -45,6 +65,9 @@ const LoginForm = () => {
                   <div className='text-red-700'>{errors.password}</div>
                 ) : null}
               </div>
+              {
+                error && <p className="text-red-500">{error}</p>
+              }
               <button type="submit" disabled={isSubmitting}  className='w-full text-center bg-green-600 py-2 text-white mt-2 rounded-md focus:outline-none disabled:bg-green-300'>Submit</button>
             </Form>
           )
